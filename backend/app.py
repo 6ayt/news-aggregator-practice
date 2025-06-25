@@ -13,7 +13,6 @@ origins = [
     "http://localhost:8001",
     "http://127.0.0.1:8001",
 ]
-#tu tut tutu tututu
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -22,9 +21,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 # Пам'ять для збереження джерел (для кожного STUDENT_ID окремо)
 store = {STUDENT_ID: SOURCES.copy()}
+
+STUDENT_ID = "student_001"
+
+fake_users_db = {
+    STUDENT_ID: {
+        "username": STUDENT_ID,
+        "full_name": "Віталй Бойко",
+        "hashed_password": "fakehashedpassword123",  # замість реального хешу
+        "disabled": False,
+    }
+}
+
+@app.get("/info")
+def get_info():
+    return {"student_id": STUDENT_ID}
 
 @app.get("/sources/{student_id}")
 def get_sources(student_id: str):
