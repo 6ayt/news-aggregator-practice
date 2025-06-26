@@ -89,9 +89,7 @@ def fetch_news(student_id: str):
     sources = store.get(student_id, config.SOURCES)
     for url in sources:
         feed = feedparser.parse(url)
-        entries = getattr(feed, "entries", [])
-        print(f"[FETCH] {url} -> {len(entries)} entries")
-        for entry in entries:
+        for entry in getattr(feed, "entries", []):
             news_store[student_id].append({
                 "title": entry.get("title", ""),
                 "link": entry.get("link", ""),
